@@ -4,25 +4,33 @@ class Tree {
   }
 
   buildTree(array) {
+    console.log(array);
     // array param e.g: [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
     // CONTINUE FROM HERE (STEP 3)
 
     let leftArr = [];
     let rightArr = [];
+
     const root = new Node(array[Math.floor(array.length / 2)]);
 
+    if (array.length === 2) {
+      root.setLeft(new Node(array[0]));
+      return root;
+    }
     if (array.length === 1) {
       return root;
     }
+
     // Grab initial left array
     for (let x = 0; x < array.indexOf(root.getValue()); x++) {
       leftArr.push(array[x]);
     }
 
-    for (let x = array.indexOf(root.getValue()); x < array.length; x++) {
+    for (let x = array.indexOf(root.getValue()) + 1; x < array.length; x++) {
       rightArr.push(array[x]);
     }
 
+    // this will recursively run as long as the array is not 2.
     root.setLeft(this.buildTree(leftArr));
     root.setRight(this.buildTree(rightArr));
 
@@ -50,7 +58,7 @@ class Node {
   }
 }
 
-const bst = new Tree([1, 2, 3, 4, 5]);
+const bst = new Tree([1, 2, 3, 4, 5, 6, 7]);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
