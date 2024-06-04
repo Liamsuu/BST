@@ -121,6 +121,49 @@ class Tree {
     }
   }
 
+  deleteItem(value, currentNode = this.root, previousNode = null) {
+    if (currentNode === null) {
+      return null; // same as just returning nothing
+    }
+
+    if (currentNode.getValue() === value) {
+      // removes leaf nodes(nodes at the end with no children)
+      if (currentNode.left === null && currentNode.right === null) {
+        // will check if the current node is the previous nodes left or right child, and assigns null whatever child of it is the currentnode
+        if (currentNode === previousNode.right) {
+          previousNode.right = null;
+        } else {
+          previousNode.left = null;
+        }
+        return null;
+      }
+      // removes nodes with only one child. :
+
+      // The node before the current one basically jumps over the current node
+      // and connects up to the currents child instead, replacing any of the current nodes connections - both to the current, and the node from the current
+      // Basically it just replaces the current nodes position within previous node with the current nodes child.
+      else if (currentNode.left === null && currentNode.right !== null) {
+        if (previousNode.right === currentNode) {
+          previousNode.setRight(currentNode.right);
+        } else {
+          previousNode.setLeft(currentNode.right);
+        }
+      } else if (currentNode.left !== null && currentNode.right === null) {
+        if (previousNode.right === currentNode) {
+          previousNode.setRight(currentNode.left);
+        } else {
+          previousNode.setLeft(currentNode.left);
+        }
+      }
+
+      // Nodes with both left and right children
+    } else {
+      // this gets run everytime the current node does not contain the value, eventually leading to null if it wasnt down that branch, thus eventually matching the very first condition above
+      this.deleteItem(value, currentNode.left, currentNode); // rerun with whatever node is on the left
+      this.deleteItem(value, currentNode.right, currentNode); // rerun with whatever node is on the right
+    }
+  }
+
   removeDuplicates(array) {
     // this will remove duplicates only if the array is already sorted
     for (let x = 0; x < array.length; x++) {
@@ -171,4 +214,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 bst.insert(15);
 bst.insert(27);
 bst.insert(16);
+// bst.deleteItem(16);
+prettyPrint(bst.root);
+console.log("---------------------------------------------");
+bst.deleteItem(15);
+
 prettyPrint(bst.root);
