@@ -64,7 +64,6 @@ class Tree {
   buildTree(array) {
     array = mergeSort(array); // uses my mergesort algorithm to put values in order
     this.removeDuplicates(array);
-    console.log(array);
 
     // array param e.g: [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
     // CONTINUE FROM HERE (STEP 3)
@@ -97,6 +96,29 @@ class Tree {
     root.setRight(this.buildTree(rightArr));
 
     return root;
+  }
+
+  insert(value) {
+    let currentNode = this.root;
+    // Will navigate left(less than) and right(greater than) through nodes based on greater or less than comparison, after comparison it will either move to the next node or insert a new node
+    while (true) {
+      if (value === currentNode.value) {
+        break;
+      }
+      if (value < currentNode.value) {
+        if (currentNode.left === null) {
+          currentNode.setLeft(new Node(value));
+          break;
+        }
+        currentNode = currentNode.left;
+      } else {
+        if (currentNode.right === null) {
+          currentNode.setRight(new Node(value));
+          break;
+        }
+        currentNode = currentNode.right;
+      }
+    }
   }
 
   removeDuplicates(array) {
@@ -146,5 +168,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
+bst.insert(15);
+bst.insert(27);
+bst.insert(16);
 prettyPrint(bst.root);
-// console.log(bst.root.left);
