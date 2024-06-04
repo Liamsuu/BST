@@ -7,7 +7,7 @@ class Tree {
     console.log(array);
     // array param e.g: [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
     // CONTINUE FROM HERE (STEP 3)
-
+    this.removeDuplicates(array);
     let leftArr = [];
     let rightArr = [];
 
@@ -36,6 +36,17 @@ class Tree {
 
     return root;
   }
+
+  removeDuplicates(array) {
+    // this will remove duplicates only if the array is already sorted
+    for (let x = 0; x < array.length; x++) {
+      if (array[x] === array[x + 1]) {
+        array.splice(x, 1);
+        x = x - 1; // to reset loop from that point to check if there's even more duplicate values
+      }
+    }
+    return array;
+  }
 }
 
 class Node {
@@ -58,7 +69,7 @@ class Node {
   }
 }
 
-const bst = new Tree([1, 2, 3, 4, 5, 6, 7]);
+const bst = new Tree([1, 2, 2, 2, 3, 3, 4, 5, 5, 6, 7]);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
