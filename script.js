@@ -1,10 +1,70 @@
+// Uses merge sort algorithm to sort array of numbers in order.
+
+function mergeSort(array, leftArr = [], rightArr = []) {
+  if (array.length <= 1) {
+    return array;
+  }
+
+  if (array.length > 1) {
+    const middlePoint = Math.round(array.length / 2);
+    if (array.length === 2) {
+      leftArr.push(array[0]);
+      rightArr.push(array[1]);
+      return merge(mergeSort(leftArr), mergeSort(rightArr)); // this returns single elements then to combine into an array with 2 items that are ordered to the merge below.
+    } else {
+      for (let loops = 0; loops < middlePoint; loops++) {
+        leftArr.push(array[loops]);
+      }
+      for (let loops = middlePoint; loops < array.length; loops++) {
+        rightArr.push(array[loops]);
+      }
+      return merge(mergeSort(leftArr), mergeSort(rightArr));
+    }
+  }
+}
+
+function merge(leftArr, rightArr) {
+  let sortedList = [];
+
+  while (true) {
+    if (leftArr[0] === rightArr[0]) {
+      sortedList.push(leftArr[0], rightArr[0]);
+      leftArr.splice(0, 1);
+      rightArr.splice(0, 1);
+    }
+    if (leftArr.length === 0) {
+      rightArr.forEach((element) => {
+        sortedList.push(element);
+      });
+      break;
+    } else if (rightArr.length === 0) {
+      leftArr.forEach((element) => {
+        sortedList.push(element);
+      });
+      break;
+    }
+
+    if (leftArr[0] > rightArr[0]) {
+      sortedList.push(rightArr[0]);
+      rightArr.splice(0, 1);
+    } else if (rightArr[0] > leftArr[0]) {
+      sortedList.push(leftArr[0]);
+      leftArr.splice(0, 1);
+    }
+  }
+
+  return sortedList;
+}
+
 class Tree {
   constructor(array) {
     this.root = this.buildTree(array); // maybe change this if its not correct
   }
 
   buildTree(array) {
+    array = mergeSort(array); // uses my mergesort algorithm to put values in order
     console.log(array);
+
     // array param e.g: [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
     // CONTINUE FROM HERE (STEP 3)
 
@@ -14,6 +74,7 @@ class Tree {
     const root = new Node(array[Math.floor(array.length / 2)]);
 
     if (array.length === 2) {
+      // only setting left side as the right node would be the root node in this case
       root.setLeft(new Node(array[0]));
       return root;
     }
@@ -58,7 +119,7 @@ class Node {
   }
 }
 
-const bst = new Tree([1, 2, 3, 4, 5, 6, 7]);
+const bst = new Tree([1, 67, 72, 2, 6]);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
