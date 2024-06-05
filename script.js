@@ -58,7 +58,7 @@ function merge(leftArr, rightArr) {
 
 class Tree {
   constructor(array) {
-    this.root = this.buildTree(array); // maybe change this if its not correct
+    this.root = this.buildTree(array);
   }
 
   buildTree(array) {
@@ -127,21 +127,20 @@ class Tree {
     }
 
     if (currentNode.getValue() === value) {
-      // removes leaf nodes(nodes at the end with no children)
+      // REMOVE LEAF NODES(nodes at the end with no children):
       if (currentNode.left === null && currentNode.right === null) {
         // will check if the current node is the previous nodes left or right child, and assigns null whatever child of it is the currentnode
         if (currentNode === previousNode.right) {
-          previousNode.right = null;
+          previousNode.setRight(null);
         } else {
-          previousNode.left = null;
+          previousNode.setLeft(null);
         }
         return null;
       }
-      // removes nodes with only one child. :
+      // REMOVE NODES WITH ONLY ONE CHILD:
 
-      // The node before the current one basically jumps over the current node
+      // The node before the current(the one to be removed) basically jumps over the current node
       // and connects up to the currents child instead, replacing any of the current nodes connections - both to the current, and the node from the current
-      // Basically it just replaces the current nodes position within previous node with the current nodes child.
       else if (currentNode.left === null && currentNode.right !== null) {
         if (previousNode.right === currentNode) {
           previousNode.setRight(currentNode.right);
@@ -156,7 +155,44 @@ class Tree {
         }
       }
 
-      // Nodes with both left and right children
+      // REMOVE NODES WITH BOTH LEFT AND RIGHT CHILDREN:
+      else if (currentNode.left !== null && currentNode.right !== null) {
+        const removedNode = currentNode; // 8
+        previousNode = currentNode; // 8
+        currentNode = currentNode.right; // 15
+        if (currentNode.left === null) {
+          // initial check
+          removedNode.value = currentNode.getValue(); // 8 to 15
+
+          if (currentNode.right !== null) {
+            removedNode.setRight(currentNode.right);
+          } else {
+            removedNode.setRight(null);
+          }
+        } else {
+          // set them into position to continuously go left.
+          currentNode = currentNode.left;
+          previousNode = removedNode.right;
+        }
+        if (previousNode !== removedNode) {
+          while (true) {
+            // remember current node is always one ahead of previous since i set the position above
+            if (currentNode.left === null) {
+              removedNode.value = currentNode.getValue();
+              if (currentNode.right !== null) {
+                previousNode.setLeft(currentNode.right);
+                break;
+              } else {
+                previousNode.setLeft(null);
+                break;
+              }
+            } else {
+              currentNode = currentNode.left;
+              previousNode = previousNode.left;
+            }
+          }
+        }
+      }
     } else {
       // this gets run everytime the current node does not contain the value, eventually leading to null if it wasnt down that branch, thus eventually matching the very first condition above
       this.deleteItem(value, currentNode.left, currentNode); // rerun with whatever node is on the left
@@ -214,9 +250,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 bst.insert(15);
 bst.insert(27);
 bst.insert(16);
-// bst.deleteItem(16);
+
 prettyPrint(bst.root);
 console.log("---------------------------------------------");
-bst.deleteItem(15);
 
 prettyPrint(bst.root);
