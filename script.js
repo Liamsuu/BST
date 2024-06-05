@@ -210,6 +210,27 @@ class Tree {
     }
     return array;
   }
+
+  find(value, currentNode = this.root) {
+    if (currentNode !== null) {
+      if (value === currentNode.getValue()) {
+        return currentNode;
+      }
+    } else {
+      return null;
+    }
+    const leftRecursion = this.find(value, currentNode.left);
+    const rightRecursion = this.find(value, currentNode.right);
+    if (leftRecursion !== null || rightRecursion !== null) {
+      if (leftRecursion !== null) {
+        return leftRecursion;
+      } else {
+        return rightRecursion;
+      }
+    } else {
+      return null; // when the value is not found
+    }
+  }
 }
 
 class Node {
@@ -253,5 +274,4 @@ bst.insert(16);
 
 prettyPrint(bst.root);
 console.log("---------------------------------------------");
-
 prettyPrint(bst.root);
