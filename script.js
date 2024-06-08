@@ -284,6 +284,22 @@ class Tree {
       return traversedValues;
     }
   }
+
+  inOrder(callback = false, root = this.root, traversedValues = []) {
+    if (root === null) {
+      return;
+    }
+    if (callback !== false) {
+      this.inOrder(callback, root.left);
+      callback(root);
+      this.inOrder(callback, root.right);
+    } else {
+      this.inOrder(callback, root.left, traversedValues);
+      traversedValues.push(root.value);
+      this.inOrder(callback, root.right, traversedValues);
+      return traversedValues;
+    }
+  }
 }
 
 class Node {
@@ -330,3 +346,5 @@ prettyPrint(bst.root);
 // prettyPrint(bst.root);
 
 console.log(bst.preOrder());
+console.log("=======================");
+console.log(bst.inOrder());
