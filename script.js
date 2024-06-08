@@ -210,6 +210,43 @@ class Tree {
     }
     return array;
   }
+
+  levelOrder(callback = false) {
+    const root = this.root;
+    if (root === null || root === undefined) {
+      return;
+    }
+    let queue = [];
+    queue.push(root);
+    if (callback !== false) {
+      while (queue.length !== 0) {
+        let currentNode = queue[0]; // node at the front of the queue
+        if (currentNode.left !== null) {
+          queue.push(currentNode.left);
+        }
+        if (currentNode.right !== null) {
+          queue.push(currentNode.right);
+        }
+        callback(currentNode);
+        queue.shift(); // removes element at the front of the queue
+      }
+    } else {
+      let traversedValues = [];
+      while (queue.length !== 0) {
+        let currentNode = queue[0]; // node at the front of the queue
+        traversedValues.push(currentNode.getValue());
+        if (currentNode.left !== null) {
+          queue.push(currentNode.left);
+        }
+        if (currentNode.right !== null) {
+          queue.push(currentNode.right);
+        }
+
+        queue.shift(); // removes element at the front of the queue
+      }
+      return traversedValues;
+    }
+  }
 }
 
 class Node {
@@ -252,6 +289,5 @@ bst.insert(27);
 bst.insert(16);
 
 prettyPrint(bst.root);
-console.log("---------------------------------------------");
-
-prettyPrint(bst.root);
+// console.log("---------------------------------------------");
+// prettyPrint(bst.root);
