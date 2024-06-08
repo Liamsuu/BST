@@ -312,3 +312,5 @@ bst.insert(16);
 prettyPrint(bst.root);
 // console.log("---------------------------------------------");
 // prettyPrint(bst.root);
+
+console.log(bst.levelOrder());
