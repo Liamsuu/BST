@@ -372,6 +372,11 @@ class Tree {
       }
     }
   }
+
+  rebalance() {
+    const newTreeArr = this.inOrder();
+    this.root = this.buildTree(newTreeArr);
+  }
 }
 
 class Node {
@@ -394,8 +399,6 @@ class Node {
   }
 }
 
-const bst = new Tree([1, 7, 8, 7, 3, 5, 1, 2]);
-
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
@@ -408,9 +411,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-
-bst.insert(15);
-bst.insert(27);
-bst.insert(16);
-
-prettyPrint(bst.root);
