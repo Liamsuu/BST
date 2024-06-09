@@ -319,13 +319,39 @@ class Tree {
 
   height(node) {
     if (node === null) {
-      return 0;
+      return -1;
     } else {
       // recursively go left and right until reaching null, then store them results, return whatever ones higher of the two of them + 1
-      const leftDepth = this.height(node.left);
-      const rightDepth = this.height(node.right);
+      const leftHeight = this.height(node.left);
+      const rightHeight = this.height(node.right);
 
-      return Math.max(leftDepth, rightDepth) + 1;
+      return Math.max(leftHeight, rightHeight) + 1;
+    }
+  }
+
+  depth(node, currentNode = this.root) {
+    // Starts are root and goes down each path, it will only return a number if its found, otherwise returns null.
+    if (node === null) {
+      return null;
+    }
+    if (currentNode === null) {
+      return null;
+    }
+    if (currentNode === node) {
+      return 0;
+    } else {
+      const leftDepth = this.depth(node, currentNode.left);
+      const rightDepth = this.depth(node, currentNode.right);
+      // checks if it was found in tree, if found left or right would have returned a number instead of null, just add one to that number to get depth of node in tree
+      if (leftDepth === null && rightDepth === null) {
+        return null;
+      } else {
+        if (leftDepth !== null) {
+          return leftDepth + 1;
+        } else {
+          return rightDepth + 1;
+        }
+      }
     }
   }
 }
@@ -373,10 +399,10 @@ prettyPrint(bst.root);
 // console.log("---------------------------------------------");
 // prettyPrint(bst.root);
 
-console.log(bst.preOrder());
-console.log("=======================");
-console.log(bst.inOrder());
-console.log("=======================");
-console.log(bst.postOrder());
+// console.log(bst.preOrder());
+// console.log("=======================");
+// console.log(bst.inOrder());
+// console.log("=======================");
+// console.log(bst.postOrder());
 
-console.log(bst.height(bst.root.left));
+console.log(bst.depth(bst.find(27)));
