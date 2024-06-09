@@ -1,0 +1,25 @@
+{
+  "name": "easy-bst",
+  "version": "1.0.0",
+  "description": "A Binary Search Tree Algorithm",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Liamsuu/BST.git"
+  },
+  "keywords": [
+    "BST",
+    "Binary_Search_Tree",
+    "Data_Stucture"
+  ],
+  "author": "Liam Colley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Liamsuu/BST/issues"
+  },
+  "homepage": "https://github.com/Liamsuu/BST#readme",
+  "type": "module"
+}
