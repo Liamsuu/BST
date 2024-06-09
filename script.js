@@ -316,6 +316,18 @@ class Tree {
       return traversedValues;
     }
   }
+
+  height(node) {
+    if (node === null) {
+      return 0;
+    } else {
+      // recursively go left and right until reaching null, then store them results, return whatever ones higher of the two of them + 1
+      const leftDepth = this.height(node.left);
+      const rightDepth = this.height(node.right);
+
+      return Math.max(leftDepth, rightDepth) + 1;
+    }
+  }
 }
 
 class Node {
@@ -366,3 +378,5 @@ console.log("=======================");
 console.log(bst.inOrder());
 console.log("=======================");
 console.log(bst.postOrder());
+
+console.log(bst.height(bst.root.left));
