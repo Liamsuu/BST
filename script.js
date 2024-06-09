@@ -354,6 +354,24 @@ class Tree {
       }
     }
   }
+
+  isBalanced() {
+    const leftHeight = this.height(this.root.left);
+    const rightHeight = this.height(this.root.right);
+    if (leftHeight > rightHeight) {
+      if (leftHeight - rightHeight <= 1) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (rightHeight - leftHeight <= 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }
 
 class Node {
@@ -396,13 +414,3 @@ bst.insert(27);
 bst.insert(16);
 
 prettyPrint(bst.root);
-// console.log("---------------------------------------------");
-// prettyPrint(bst.root);
-
-// console.log(bst.preOrder());
-// console.log("=======================");
-// console.log(bst.inOrder());
-// console.log("=======================");
-// console.log(bst.postOrder());
-
-console.log(bst.depth(bst.find(27)));
